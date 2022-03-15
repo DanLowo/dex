@@ -1,12 +1,13 @@
-interface indexing {
+interface indexType {
   [name: string]: object
 }
 
-const Theme: indexing = {
+const Theme: indexType = {
   dark: {
-    backgroundDark: "#23242F",
-    backgroundLight: "#2C2D3A",
-    linkOnHover: "#0177FB"
+    backgroundPrimary: "#23242F",
+    backgroundSecondary: "#2C2D3A",
+    linkOnHover: "#0177FB",
+    textPrimary: "#fff"
   }
 }
 
