@@ -17,14 +17,16 @@ const NavList = styled.ul`
 const NavListItem = styled.li`
   display: flex;
   font-size: 1.05rem;
+  color: ${props => props.theme.textPrimary};
   letter-spacing: .03rem;
   align-items: center;
   gap: .5rem;
   
-  >i {
+  > i {
     display: none;
     font-size: .8rem;
   }
+  
   :hover, :hover i {
     display: inherit;
     cursor: pointer;
