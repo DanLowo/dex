@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
+import { NavigationBar } from "../index";
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,7 +24,14 @@ const Wrapper = styled.div`
 const PageAndSidebarWrapper = ({ children } : propTypes) => {
   return (
     <Wrapper>
-      {children}
+      <div>
+        <NavigationBar />
+        {children[0]}
+      </div>
+
+      <div>
+        {children[1]}
+      </div>
     </Wrapper>
   );
 };
