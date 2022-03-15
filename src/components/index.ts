@@ -1,4 +1,4 @@
-import PageAndSidebarWrapper from "./PageAndSidebarWrapper/PageAndSidebarWrapper";
+import PageAndSidebarWrapper from "./pageAndSidebarWrapper/PageAndSidebarWrapper";
 
 export {
   PageAndSidebarWrapper
