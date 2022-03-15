@@ -8,13 +8,15 @@ const Wrapper = styled.div`
   justify-content: space-between;
   
   >:nth-child(1) {
-    width: 72%;
-    padding: 1rem;
+    width: calc(72% - 5rem);
+    padding: 1rem 2.5rem;
+    background-color: ${props => props.theme.backgroundPrimary};
   };
   
   >:nth-child(2) {
     width: 28%;
     padding: 1rem;
+    background-color: ${props => props.theme.backgroundSecondary};
   }
 `
 
