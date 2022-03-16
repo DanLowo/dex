@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
-import { NavigationBar } from "../index";
+import { NavigationBar, SideBarNavigation } from "../index";
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   };
   
   >:nth-child(2) {
-    width: 28%;
+    width: 30%;
     padding: 1rem;
     background-color: ${props => props.theme.backgroundSecondary};
   }
@@ -30,6 +30,7 @@ const PageAndSidebarWrapper = ({ children } : propTypes) => {
       </div>
 
       <div>
+        <SideBarNavigation />
         {children[1]}
       </div>
     </Wrapper>
