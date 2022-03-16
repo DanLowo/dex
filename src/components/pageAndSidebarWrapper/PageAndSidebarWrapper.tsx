@@ -18,6 +18,14 @@ const Wrapper = styled.div`
     width: 30%;
     padding: 1rem;
     background-color: ${props => props.theme.backgroundSecondary};
+    
+    & main {
+      width: 100%;
+      height: calc(100% - 2rem);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 `
 
@@ -31,7 +39,9 @@ const PageAndSidebarWrapper = ({ children } : propTypes) => {
 
       <div>
         <SideBarNavigation />
-        {children[1]}
+        <main>
+          {children[1]}
+        </main>
       </div>
     </Wrapper>
   );
