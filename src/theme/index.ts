@@ -9,7 +9,8 @@ const Theme: indexType = {
     backgroundButton: "#3B3C4E",
     backgroundOnline: "#53F3C3",
     linkOnHover: "#0177FB",
-    textPrimary: "#fff"
+    textPrimary: "#fff",
+    textSecondary: "#8B8CA7"
   }
 }
 
