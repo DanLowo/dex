@@ -4,8 +4,9 @@ interface indexType {
 
 const Theme: indexType = {
   dark: {
-    backgroundPrimary: "#23242F",
-    backgroundSecondary: "#2C2D3A",
+    backgroundPrimary: "#1A1B23",
+    backgroundSecondary: "#23242F",
+    backgroundTertiary: "#2C2D3A",
     backgroundButton: "#3B3C4E",
     backgroundOnline: "#53F3C3",
     linkOnHover: "#0177FB",
