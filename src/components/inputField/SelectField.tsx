@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import styled from "styled-components";
-import {SpaceBetween} from "../sidebar/SidebarStyledComponents";
+import {SpaceBetween} from "../../utils/GlobalStyledComponents";
 import BNBIcon from "../../assets/icons/bnb.png"
 
 interface assetObjectProps {
