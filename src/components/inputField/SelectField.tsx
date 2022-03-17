@@ -1,24 +1,26 @@
 import React, { Fragment } from 'react';
 import styled from "styled-components";
-import {SpaceBetween} from "../../utils/GlobalStyledComponents";
-import BNBIcon from "../../assets/icons/bnb.png"
-
-interface assetObjectProps {
-  image: string,
-  name: string
-}
+import { SpaceBetween } from "../../utils/GlobalStyledComponents";
 
 interface labelProps {
+  label: string,
   leftLabel: string
   rightLabel?: string,
 }
 
+interface currentAssetProps {
+  name: string,
+  symbol: string,
+  logoURI: string
+}
+
 interface SelectFieldProps {
-  fieldValue: number,
+  fieldValue: any,
   setField: Function,
+  currentAsset: currentAssetProps,
   availableBalance: number,
+  handleShowAssets: Function,
   label: labelProps
-  assets?: Array<assetObjectProps>,
 }
 
 const LabelSection = styled(SpaceBetween)`
@@ -83,7 +85,15 @@ const SelectOption = styled(SpaceBetween)`
 `
 
 const SelectField = (props : SelectFieldProps) => {
-  const { label: {leftLabel, rightLabel}, availableBalance, fieldValue, setField } = props
+  const { currentAsset, label: {label, leftLabel, rightLabel}, availableBalance, fieldValue, setField, handleShowAssets } = props
+
+  const handleInput = (e: any) => {
+    setField((prev: any) => ({
+      ...prev,
+      amount: e.target.value
+    }))
+  }
+
   return (
     <Fragment>
       <LabelSection>
@@ -91,11 +101,11 @@ const SelectField = (props : SelectFieldProps) => {
         <span>{rightLabel}: {availableBalance}</span>
       </LabelSection>
       <Field>
-        <InputField type={"number"} value={fieldValue} onChange={(e) => setField(e.target.value)} />
-        <SelectOption>
+        <InputField id={label} type={"number"} value={fieldValue} onChange={handleInput} />
+        <SelectOption onClick={() => handleShowAssets(label)}>
           <span>
-            <img src={BNBIcon} alt={""} />
-            BUSD
+            <img src={currentAsset.logoURI} alt={currentAsset.symbol} />
+            {currentAsset.symbol}
           </span>
           <i className="fal fa-chevron-down" />
         </SelectOption>
