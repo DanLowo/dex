@@ -1,5 +1,5 @@
 import React from 'react';
-import { PageAndSidebarWrapper } from "../../components";
+import { PageAndSidebarWrapper, Swap } from "../../components";
 
 const Home = () => {
 
@@ -13,7 +13,7 @@ const Home = () => {
     <div>
       <PageAndSidebarWrapper>
         <HomeComponent />
-        <h4>Sure</h4>
+        <Swap />
       </PageAndSidebarWrapper>
     </div>
   );
