@@ -42,6 +42,7 @@ const Header = styled(AllItemsRight)`
   
   & i:hover {
     cursor: pointer;
+    background-color: ${props => props.theme.backgroundSecondary};
   }
 `
 
@@ -95,6 +96,10 @@ const Swap = () => {
     setReceive(holdCurrentPayInfo)
   }
 
+  const handleConversion = () => {
+    return (Number(pay.asset.price) / Number(receive.asset.price)).toFixed(6)
+  }
+
   const handleConversionFromAssetChange = (fieldType: string, price: number) => {
     if(fieldType === "pay") {
       setReceive(prev => ({
@@ -121,10 +126,6 @@ const Swap = () => {
         amount: ((Number(receive.asset.price) * Number(amount)) / Number(pay.asset.price)).toFixed(6)
       }))
     }
-  }
-
-  const handleConversion = () => {
-    return (Number(pay.asset.price) / Number(receive.asset.price)).toFixed(6)
   }
 
   useEffect(() => {
