@@ -25,7 +25,7 @@ interface SelectFieldProps {
 
 const LabelSection = styled(SpaceBetween)`
   font-size: .97rem;
-  margin: 2rem 0 .6rem 0;
+  margin: 1.2rem 0 .4rem 0;
   color: ${props => props.theme.textSecondary};
 `
 
