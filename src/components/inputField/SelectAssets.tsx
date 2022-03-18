@@ -12,12 +12,14 @@ interface assetObjectProps {
 
 interface assetFieldProps {
   currentField: assetObjectProps,
-  setField: Function
+  setField: Function,
+  label: string
 }
 
 interface selectAssetsProps {
   assets: Array<assetObjectProps>,
   close: Function,
+  handleConversion: Function,
   assetField: assetFieldProps
 }
 
@@ -101,7 +103,7 @@ const Div = styled.div`
   height: 75%;
 `
 
-const SelectAssets = ({ assets, close, assetField: {currentField, setField} } : selectAssetsProps) => {
+const SelectAssets = ({ assets, close, assetField: {currentField, setField, label}, handleConversion } : selectAssetsProps) => {
 
   const handleAssetSelection = async (asset: assetObjectProps) => {
     const price = await getTokenPriceService([asset.address])
@@ -109,6 +111,7 @@ const SelectAssets = ({ assets, close, assetField: {currentField, setField} } : 
       ...prev,
       asset: { ...asset, price: price[0] }
     }))
+    handleConversion(label, price)
     close(false)
   }
 
