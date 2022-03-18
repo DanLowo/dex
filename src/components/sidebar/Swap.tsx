@@ -3,6 +3,7 @@ import { Section, SelectAssets, SelectField } from "../";
 import {AllItemsRight, Button, CenterItems, Line} from "../../utils/GlobalStyledComponents";
 import styled from "styled-components";
 import { swapUseEffect } from "../../services/useEffectServices";
+import {getTokenPriceService} from "../../services";
 
 const payDetails = {
   label: {
@@ -128,6 +129,22 @@ const Swap = () => {
     }
   }
 
+  const handleRefreshPrices = async () => {
+    try {
+      const [payPrice, receivePrice] = await getTokenPriceService([pay.asset.address, receive.asset.address])
+      setPay(prev => ({
+        ...prev,
+        asset: {...prev.asset, price: payPrice}
+      }))
+      setReceive(prev => ({
+        ...prev,
+        asset: {...prev.asset, price: receivePrice}
+      }))
+    } catch (e: any) {
+      console.log(e)
+    }
+  }
+
   useEffect(() => {
     swapUseEffect({ setAllAssets, setPay, setReceive })
       .then()
@@ -159,7 +176,7 @@ const Swap = () => {
 
           <ConversionRate>
             <p>1 {pay.asset.symbol} = {handleConversion()} {receive.asset.symbol}</p>
-            <i className="fal fa-sync" />
+            <i className="fal fa-sync" onClick={handleRefreshPrices} />
           </ConversionRate>
 
           <Button disabled={true}>Confirm Order</Button>
