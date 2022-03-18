@@ -20,6 +20,17 @@ const receiveDetails = {
   }
 }
 
+const defaultAssetState = {
+  asset: {
+    name: "",
+    symbol: "",
+    logoURI: "",
+    address: "",
+    price: ""
+  },
+  amount: "",
+}
+
 const Header = styled(AllItemsRight)`
   margin-bottom: 1.5rem;
   & i {
@@ -57,26 +68,16 @@ const ConversionRate = styled(CenterItems)`
 `
 
 const Swap = () => {
-  const [allAssets, setAllAssets] = useState([{ name: "", logoURI: "", symbol: "" }])
+  const [allAssets, setAllAssets] = useState([{ name: "", logoURI: "", symbol: "", address: "" }])
   const [showSelectAssets, setShowSelectAssets] = useState(false)
 
   const [pay, setPay] = useState({
-    asset: {
-      name: "",
-      symbol: "",
-      logoURI: ""
-    },
-    amount: "",
+    ...defaultAssetState,
     availableBalance: 90
   })
 
   const [receive, setReceive] = useState({
-    asset: {
-      name: "",
-      symbol: "",
-      logoURI: ""
-    },
-    amount: "",
+    ...defaultAssetState,
     availableBalance: 43.5
   })
   const [selectAssetField, setSelectAssetField] = useState({currentField: pay.asset, setField: setPay})
