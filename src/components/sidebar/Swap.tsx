@@ -1,9 +1,9 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Section, SelectAssets, SelectField } from "../";
-import {AllItemsRight, Button, CenterItems, Line} from "../../utils/GlobalStyledComponents";
+import { AllItemsRight, Button, CenterItems, Line } from "../../utils/GlobalStyledComponents";
 import styled from "styled-components";
 import { swapUseEffect } from "../../services/useEffectServices";
-import {getTokenPriceService} from "../../services";
+import { getTokenPriceService } from "../../services";
 
 const payDetails = {
   label: {
