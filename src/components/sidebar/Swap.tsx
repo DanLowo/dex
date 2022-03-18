@@ -80,11 +80,12 @@ const Swap = () => {
     ...defaultAssetState,
     availableBalance: 43.5
   })
-  const [selectAssetField, setSelectAssetField] = useState({currentField: pay.asset, setField: setPay})
+  const [selectAssetField, setSelectAssetField] = useState({currentField: pay.asset, setField: setPay, label: "pay"})
 
   const handleShowAssets = (type: string) => {
     setShowSelectAssets(true)
-    const field = type === "pay" ? {currentField: pay.asset, setField: setPay} : {currentField: receive.asset, setField: setReceive}
+    const field = type === "pay" ? {currentField: pay.asset, setField: setPay, label: "pay"} :
+      {currentField: receive.asset, setField: setReceive, label: "receive"}
     setSelectAssetField(field)
   }
 
@@ -94,17 +95,50 @@ const Swap = () => {
     setReceive(holdCurrentPayInfo)
   }
 
+  const handleConversionFromAssetChange = (fieldType: string, price: number) => {
+    if(fieldType === "pay") {
+      setReceive(prev => ({
+        ...prev,
+        amount: ((price * Number(pay.amount)) / Number(receive.asset.price)).toFixed(6)
+      }))
+    } else {
+      setPay(prev => ({
+        ...prev,
+        amount: ((price * Number(receive.amount)) / Number(pay.asset.price)).toFixed(6)
+      }))
+    }
+  }
+
+  const handleConversionFromInputChange = (amount: number, fieldType: string) => {
+    if(fieldType === "pay") {
+      setReceive(prev => ({
+        ...prev,
+        amount: ((Number(pay.asset.price) * Number(amount)) / Number(receive.asset.price)).toFixed(6)
+      }))
+    } else {
+      setPay(prev => ({
+        ...prev,
+        amount: ((Number(receive.asset.price) * Number(amount)) / Number(pay.asset.price)).toFixed(6)
+      }))
+    }
+  }
+
+  const handleConversion = () => {
+    return (Number(pay.asset.price) / Number(receive.asset.price)).toFixed(6)
+  }
+
   useEffect(() => {
     swapUseEffect({ setAllAssets, setPay, setReceive })
       .then()
       .catch(e => console.log(e))
   }, [])
 
+
   return (
     <Section>
       {/* is select asset component is not enabled show swap component*/}
       {showSelectAssets ? (
-        <SelectAssets assets={allAssets} assetField={selectAssetField} close={setShowSelectAssets} />
+        <SelectAssets handleConversion={handleConversionFromAssetChange} assets={allAssets} assetField={selectAssetField} close={setShowSelectAssets} />
       ) : (
         <Fragment>
           <Header>
@@ -115,15 +149,15 @@ const Swap = () => {
           </Header>
 
           <div>
-            <SelectField currentAsset={pay.asset} handleShowAssets={handleShowAssets} setField={setPay} fieldValue={pay.amount} label={payDetails.label} availableBalance={pay.availableBalance} />
+            <SelectField handleConversion={handleConversionFromInputChange} currentAsset={pay.asset} handleShowAssets={handleShowAssets} setField={setPay} fieldValue={pay.amount} label={payDetails.label} availableBalance={pay.availableBalance} />
             <SwitchAssetButtonIcon>
               <i className="fal fa-arrow-circle-down" onClick={handleSwitchAssetsForSwap} />
             </SwitchAssetButtonIcon>
-            <SelectField currentAsset={receive.asset} handleShowAssets={handleShowAssets} setField={setReceive} fieldValue={receive.amount} label={receiveDetails.label} availableBalance={receive.availableBalance} />
+            <SelectField handleConversion={handleConversionFromInputChange} currentAsset={receive.asset} handleShowAssets={handleShowAssets} setField={setReceive} fieldValue={receive.amount} label={receiveDetails.label} availableBalance={receive.availableBalance} />
           </div>
 
           <ConversionRate>
-            <p>1 {pay.asset.symbol} = 1 {receive.asset.symbol}</p>
+            <p>1 {pay.asset.symbol} = {handleConversion()} {receive.asset.symbol}</p>
             <i className="fal fa-sync" />
           </ConversionRate>
 
