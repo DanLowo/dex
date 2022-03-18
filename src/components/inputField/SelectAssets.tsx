@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from "styled-components";
-import {AllItemsLeft, SpaceBetween} from "../../utils/GlobalStyledComponents";
+import { AllItemsLeft, SpaceBetween } from "../../utils/GlobalStyledComponents";
+import { getTokenPriceService } from "../../services";
 
 interface assetObjectProps {
   name: string,
   symbol: string,
-  logoURI: string
+  logoURI: string,
+  address: string
 }
 
 interface assetFieldProps {
@@ -101,10 +103,11 @@ const Div = styled.div`
 
 const SelectAssets = ({ assets, close, assetField: {currentField, setField} } : selectAssetsProps) => {
 
-  const handleAssetSelection = (asset: assetObjectProps) => {
+  const handleAssetSelection = async (asset: assetObjectProps) => {
+    const price = await getTokenPriceService([asset.address])
     setField((prev: object) => ({
       ...prev,
-      asset
+      asset: { ...asset, price: price[0] }
     }))
     close(false)
   }
