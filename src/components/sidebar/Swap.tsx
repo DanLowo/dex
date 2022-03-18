@@ -9,8 +9,7 @@ const payDetails = {
     label: "pay",
     leftLabel: "Pay",
     rightLabel: "Available"
-  },
-  availableBalance: 200
+  }
 }
 
 const receiveDetails = {
@@ -18,8 +17,7 @@ const receiveDetails = {
     label: "receive",
     leftLabel: "Receive (Estimated)",
     rightLabel: "Available"
-  },
-  availableBalance: 78
+  }
 }
 
 const Header = styled(AllItemsRight)`
@@ -68,7 +66,8 @@ const Swap = () => {
       symbol: "",
       logoURI: ""
     },
-    amount: ""
+    amount: "",
+    availableBalance: 90
   })
 
   const [receive, setReceive] = useState({
@@ -77,7 +76,8 @@ const Swap = () => {
       symbol: "",
       logoURI: ""
     },
-    amount: ""
+    amount: "",
+    availableBalance: 43.5
   })
   const [selectAssetField, setSelectAssetField] = useState({currentField: pay.asset, setField: setPay})
 
@@ -87,6 +87,11 @@ const Swap = () => {
     setSelectAssetField(field)
   }
 
+  const handleSwitchAssetsForSwap = () => {
+    const holdCurrentPayInfo = {...pay}
+    setPay(receive)
+    setReceive(holdCurrentPayInfo)
+  }
 
   useEffect(() => {
     swapUseEffect({ setAllAssets, setPay, setReceive })
@@ -109,11 +114,11 @@ const Swap = () => {
           </Header>
 
           <div>
-            <SelectField currentAsset={pay.asset} handleShowAssets={handleShowAssets} setField={setPay} fieldValue={pay.amount} label={payDetails.label} availableBalance={payDetails.availableBalance} />
+            <SelectField currentAsset={pay.asset} handleShowAssets={handleShowAssets} setField={setPay} fieldValue={pay.amount} label={payDetails.label} availableBalance={pay.availableBalance} />
             <SwitchAssetButtonIcon>
-              <i className="fal fa-arrow-circle-down" />
+              <i className="fal fa-arrow-circle-down" onClick={handleSwitchAssetsForSwap} />
             </SwitchAssetButtonIcon>
-            <SelectField currentAsset={receive.asset} handleShowAssets={handleShowAssets} setField={setReceive} fieldValue={receive.amount} label={receiveDetails.label} availableBalance={receiveDetails.availableBalance} />
+            <SelectField currentAsset={receive.asset} handleShowAssets={handleShowAssets} setField={setReceive} fieldValue={receive.amount} label={receiveDetails.label} availableBalance={receive.availableBalance} />
           </div>
 
           <ConversionRate>
