@@ -19,6 +19,36 @@ const SpaceBetween = styled.div`
   align-items: center;
 `
 
+const CenterItems = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+`
+
+const Button = styled.button`
+  cursor: pointer;
+  margin: 1rem 0;
+  padding: 1rem .5rem;
+  border: none;
+  width: 100%;
+  font-weight: bold;
+  font-size: .9rem;
+  border-radius: 1rem;
+  
+  :disabled {
+    color: ${props => props.theme.textSecondary};
+    background-color: ${props => props.theme.backgroundButton};
+  }
+`
+
+const Line = styled.div`
+  margin: 1rem 0;
+  padding: 0.03rem;
+  width: 100%;
+  background: ${props => props.theme.backgroundButton};
+`
+
 export {
-  AllItemsRight, AllItemsLeft, SpaceBetween
+  AllItemsRight, AllItemsLeft, SpaceBetween, CenterItems, Button, Line
 }
