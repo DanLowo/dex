@@ -1,9 +1,8 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import {Section, SelectAssets, SelectField} from "../";
-
+import { Section, SelectAssets, SelectField } from "../";
 import { AllItemsRight } from "../../utils/GlobalStyledComponents";
 import styled from "styled-components";
-import {getAssetsService} from "../../services";
+import { swapUseEffect } from "../../services/useEffectServices";
 
 const payDetails = {
   label: {
@@ -36,12 +35,6 @@ const Header = styled(AllItemsRight)`
   }
 `
 
-interface getAssetsServiceProps {
-  name: string,
-  symbol: string,
-  logoURI: string
-}
-
 const Swap = () => {
   const [allAssets, setAllAssets] = useState([{ name: "", logoURI: "", symbol: "" }])
   const [showSelectAssets, setShowSelectAssets] = useState(false)
@@ -73,21 +66,9 @@ const Swap = () => {
 
 
   useEffect(() => {
-    getAssetsService().then((res: Array<getAssetsServiceProps>) => {
-      setAllAssets(res)
-
-      setPay((prev: any) => ({
-        ...prev,
-        asset: res[0]
-      }))
-
-      setReceive((prev: any) => ({
-        ...prev,
-        asset: res[1]
-      }))
-
-      console.log(res)
-    })
+    swapUseEffect({ setAllAssets, setPay, setReceive })
+      .then()
+      .catch(e => console.log(e))
   }, [])
 
   return (
