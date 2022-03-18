@@ -11,7 +11,8 @@ interface labelProps {
 interface currentAssetProps {
   name: string,
   symbol: string,
-  logoURI: string
+  logoURI: string,
+  address?: string
 }
 
 interface SelectFieldProps {
@@ -20,12 +21,13 @@ interface SelectFieldProps {
   currentAsset: currentAssetProps,
   availableBalance: number,
   handleShowAssets: Function,
-  label: labelProps
+  label: labelProps,
+  handleConversion: Function
 }
 
 const LabelSection = styled(SpaceBetween)`
   font-size: .97rem;
-  margin: 2rem 0 .6rem 0;
+  margin: 1.2rem 0 .4rem 0;
   color: ${props => props.theme.textSecondary};
 `
 
@@ -85,13 +87,15 @@ const SelectOption = styled(SpaceBetween)`
 `
 
 const SelectField = (props : SelectFieldProps) => {
-  const { currentAsset, label: {label, leftLabel, rightLabel}, availableBalance, fieldValue, setField, handleShowAssets } = props
+  const { currentAsset, label: {label, leftLabel, rightLabel}, availableBalance, fieldValue, setField, handleShowAssets, handleConversion } = props
 
   const handleInput = (e: any) => {
+    const amount = e.target.value
     setField((prev: any) => ({
       ...prev,
-      amount: e.target.value
+      amount
     }))
+    handleConversion(amount, label)
   }
 
   return (

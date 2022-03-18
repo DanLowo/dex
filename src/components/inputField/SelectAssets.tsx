@@ -1,21 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from "styled-components";
-import {AllItemsLeft, SpaceBetween} from "../../utils/GlobalStyledComponents";
+import { AllItemsLeft, SpaceBetween } from "../../utils/GlobalStyledComponents";
+import { getTokenPriceService } from "../../services";
 
 interface assetObjectProps {
   name: string,
   symbol: string,
-  logoURI: string
+  logoURI: string,
+  address: string
 }
 
 interface assetFieldProps {
   currentField: assetObjectProps,
-  setField: Function
+  setField: Function,
+  label: string
 }
 
 interface selectAssetsProps {
   assets: Array<assetObjectProps>,
   close: Function,
+  handleConversion: Function,
   assetField: assetFieldProps
 }
 
@@ -53,12 +57,6 @@ const Search = styled.div`
     color:  ${props => props.theme.textPrimary};
   }
 `
-const SearchField = () => (
-  <Search>
-    <input type={"text"} placeholder={"Enter the token symbol or address"}/>
-    <i className="fal fa-search" />
-  </Search>
-)
 
 const Assets = styled.div`
   margin-top: 1rem;
@@ -99,15 +97,35 @@ const Div = styled.div`
   height: 75%;
 `
 
-const SelectAssets = ({ assets, close, assetField: {currentField, setField} } : selectAssetsProps) => {
+const SelectAssets = ({ assets, close, assetField: {currentField, setField, label}, handleConversion } : selectAssetsProps) => {
 
-  const handleAssetSelection = (asset: assetObjectProps) => {
+  const [assetsList, setAssetsList] = useState(assets)
+
+  const handleSearchAssets = (e: any) => {
+    const searchedAssets = assets.filter(item => {
+      const regex = new RegExp(e.target.value, "gi");
+      return item.symbol.match(regex) || item.name.match(regex);
+    });
+
+    setAssetsList(searchedAssets)
+  }
+
+  const handleAssetSelection = async (asset: assetObjectProps) => {
+    const price = await getTokenPriceService([asset.address])
     setField((prev: object) => ({
       ...prev,
-      asset
+      asset: { ...asset, price: price[0] }
     }))
+    handleConversion(label, price)
     close(false)
   }
+
+  const SearchField = () => (
+    <Search>
+      <input type={"text"} placeholder={"Enter the token symbol or address"} onChange={handleSearchAssets}/>
+      <i className="fal fa-search" />
+    </Search>
+  )
 
   return (
     <Div>
@@ -117,9 +135,9 @@ const SelectAssets = ({ assets, close, assetField: {currentField, setField} } : 
           <span>Select An Asset</span>
         </BackSection>
       </div>
-      <SearchField />
+      {SearchField()}
       <Assets>
-        {assets.map((item, k) => (
+        {assetsList.map((item, k) => (
           item.symbol !== currentField.symbol && (
             <AssetItem key={k} onClick={() => handleAssetSelection(item)}>
               <div>
