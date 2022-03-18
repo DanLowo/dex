@@ -21,7 +21,8 @@ interface SelectFieldProps {
   currentAsset: currentAssetProps,
   availableBalance: number,
   handleShowAssets: Function,
-  label: labelProps
+  label: labelProps,
+  handleConversion: Function
 }
 
 const LabelSection = styled(SpaceBetween)`
@@ -86,13 +87,15 @@ const SelectOption = styled(SpaceBetween)`
 `
 
 const SelectField = (props : SelectFieldProps) => {
-  const { currentAsset, label: {label, leftLabel, rightLabel}, availableBalance, fieldValue, setField, handleShowAssets } = props
+  const { currentAsset, label: {label, leftLabel, rightLabel}, availableBalance, fieldValue, setField, handleShowAssets, handleConversion } = props
 
   const handleInput = (e: any) => {
+    const amount = e.target.value
     setField((prev: any) => ({
       ...prev,
-      amount: e.target.value
+      amount
     }))
+    handleConversion(amount, label)
   }
 
   return (
