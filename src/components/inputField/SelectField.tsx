@@ -11,7 +11,8 @@ interface labelProps {
 interface currentAssetProps {
   name: string,
   symbol: string,
-  logoURI: string
+  logoURI: string,
+  address?: string
 }
 
 interface SelectFieldProps {
