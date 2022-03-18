@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from "styled-components";
 import { AllItemsLeft, SpaceBetween } from "../../utils/GlobalStyledComponents";
 import { getTokenPriceService } from "../../services";
@@ -57,12 +57,6 @@ const Search = styled.div`
     color:  ${props => props.theme.textPrimary};
   }
 `
-const SearchField = () => (
-  <Search>
-    <input type={"text"} placeholder={"Enter the token symbol or address"}/>
-    <i className="fal fa-search" />
-  </Search>
-)
 
 const Assets = styled.div`
   margin-top: 1rem;
@@ -105,6 +99,17 @@ const Div = styled.div`
 
 const SelectAssets = ({ assets, close, assetField: {currentField, setField, label}, handleConversion } : selectAssetsProps) => {
 
+  const [assetsList, setAssetsList] = useState(assets)
+
+  const handleSearchAssets = (e: any) => {
+    const searchedAssets = assets.filter(item => {
+      const regex = new RegExp(e.target.value, "gi");
+      return item.symbol.match(regex) || item.name.match(regex);
+    });
+
+    setAssetsList(searchedAssets)
+  }
+
   const handleAssetSelection = async (asset: assetObjectProps) => {
     const price = await getTokenPriceService([asset.address])
     setField((prev: object) => ({
@@ -115,6 +120,13 @@ const SelectAssets = ({ assets, close, assetField: {currentField, setField, labe
     close(false)
   }
 
+  const SearchField = () => (
+    <Search>
+      <input type={"text"} placeholder={"Enter the token symbol or address"} onChange={handleSearchAssets}/>
+      <i className="fal fa-search" />
+    </Search>
+  )
+
   return (
     <Div>
       <div>
@@ -123,9 +135,9 @@ const SelectAssets = ({ assets, close, assetField: {currentField, setField, labe
           <span>Select An Asset</span>
         </BackSection>
       </div>
-      <SearchField />
+      {SearchField()}
       <Assets>
-        {assets.map((item, k) => (
+        {assetsList.map((item, k) => (
           item.symbol !== currentField.symbol && (
             <AssetItem key={k} onClick={() => handleAssetSelection(item)}>
               <div>
