@@ -28,7 +28,7 @@ const CenterItems = styled.div`
 
 const Button = styled.button`
   cursor: pointer;
-  margin: 1rem 0;
+  margin: 2rem 0 .5rem;
   padding: 1rem .5rem;
   border: none;
   width: 100%;
