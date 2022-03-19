@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import React from "react";
 
 const AllItemsRight = styled.div`
   display: flex;
@@ -51,6 +52,25 @@ const Line = styled.div`
   background: ${props => props.theme.backgroundButton};
 `
 
+const BackSectionStyled = styled(AllItemsLeft)`
+  cursor: pointer;
+  color: ${props => props.theme.textPrimary};
+  font-weight: bold;
+  letter-spacing: .05rem;
+`
+
+interface backSectionProps {
+  title: string,
+  onClick: Function
+}
+
+const BackSection = ({ title, onClick } : backSectionProps) => (
+  <BackSectionStyled onClick={() => onClick()}>
+    <i className="fal fa-long-arrow-left" />
+    <span>{title}</span>
+  </BackSectionStyled>
+)
+
 export {
-  AllItemsRight, AllItemsLeft, SpaceBetween, CenterItems, Button, Line
+  AllItemsRight, AllItemsLeft, SpaceBetween, CenterItems, Button, Line, BackSection
 }
