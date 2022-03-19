@@ -4,7 +4,8 @@ import styled from "styled-components";
 import {BSCIcon, MetamaskIcon, TrustWalletIcon, WalletConnectIcon} from "../../assets/images";
 
 interface connectWalletModalProps {
-  close: Function
+  close: Function,
+  connectWallet: Function
 }
 
 interface itemsProps {
@@ -34,7 +35,7 @@ const Items = styled(AllItemsLeft)<itemsProps>`
   }
 `
 
-const ConnectWalletModal = ({ close } : connectWalletModalProps) => {
+const ConnectWalletModal = ({ close, connectWallet } : connectWalletModalProps) => {
   const [acceptTerms, setAcceptTerms] = useState(false)
 
   const connectOptions = [
@@ -43,6 +44,13 @@ const ConnectWalletModal = ({ close } : connectWalletModalProps) => {
     {name: "Wallet Connect", icon: WalletConnectIcon},
     {name: "Trust Wallet", icon: TrustWalletIcon}
   ]
+
+  const handleConnectWallet = () => {
+    if(acceptTerms) {
+      connectWallet(true)
+      close(false)
+    }
+  }
 
   return (
     <Modal close={() => close()} title={"Connect Wallet"}>
@@ -53,7 +61,7 @@ const ConnectWalletModal = ({ close } : connectWalletModalProps) => {
 
         <div>
           {connectOptions.map(item => (
-            <Items key={item.name} accepted={acceptTerms}>
+            <Items key={item.name} accepted={acceptTerms} onClick={handleConnectWallet}>
               <img src={item.icon} alt={item.name} />
               <h4>{item.name}</h4>
             </Items>
