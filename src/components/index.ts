@@ -8,9 +8,10 @@ import SelectAssets from "./inputField/SelectAssets";
 import SwapSettings from "./sidebar/SwapSettings";
 import QrCodeModal from "./modal/QRCodeModal";
 import ConnectWalletModal from "./modal/ConnectWalletModal";
+import AccountDetailsModal from "./modal/AccountDetailsModal";
 
 
 export {
   PageAndSidebarWrapper, NavigationBar, SideBarNavigation, Swap, Section, SelectField, SelectAssets, SwapSettings,
-  QrCodeModal, ConnectWalletModal
+  QrCodeModal, ConnectWalletModal, AccountDetailsModal
 }
