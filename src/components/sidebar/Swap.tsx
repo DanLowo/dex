@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Section, SelectAssets, SelectField, SwapSettings } from "../";
+import {QrCodeModal, Section, SelectAssets, SelectField, SwapSettings} from "../";
 import { AllItemsRight, Button, CenterItems, Line, SpaceBetween } from "../../utils/GlobalStyledComponents";
 import styled from "styled-components";
 import { swapUseEffect } from "../../services/useEffectServices";
@@ -93,11 +93,17 @@ const TransactionDetails = styled(SpaceBetween)`
 
 const Swap = () => {
   const [allAssets, setAllAssets] = useState([{ name: "", logoURI: "", symbol: "", address: "" }])
+
+  // change components
   const [showSelectAssets, setShowSelectAssets] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
+  const [showShare, setShowShare] = useState(false)
+
+  // swap settings
   const [tolerance, setTolerance] = useState(0.5)
   const [txnDeadline, setTxnDeadline] = useState("")
 
+  // swap field field & assets state
   const [pay, setPay] = useState({
     ...defaultAssetState,
     availableBalance: 90
@@ -194,6 +200,7 @@ const Swap = () => {
 
   return (
     <Section>
+      {showShare && <QrCodeModal close={setShowShare} />}
       {/* is select asset component is not enabled show swap component*/}
       {showSelectAssets ? (
         <SelectAssets handleConversion={handleConversionFromAssetChange} assets={allAssets} assetField={selectAssetField} close={setShowSelectAssets} />
@@ -204,7 +211,7 @@ const Swap = () => {
           <Header>
             <i className="far fa-star"/>
             <i className="fal fa-gift"/>
-            <i className="fal fa-share-square"/>
+            <i className="fal fa-share-square" onClick={() => setShowShare(true)}/>
             <i className="fal fa-cog" onClick={() => setShowSettings(true)}/>
           </Header>
 
