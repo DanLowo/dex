@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Section, SelectAssets, SelectField } from "../";
+import { Section, SelectAssets, SelectField, SwapSettings } from "../";
 import { AllItemsRight, Button, CenterItems, Line, SpaceBetween } from "../../utils/GlobalStyledComponents";
 import styled from "styled-components";
 import { swapUseEffect } from "../../services/useEffectServices";
@@ -94,6 +94,9 @@ const TransactionDetails = styled(SpaceBetween)`
 const Swap = () => {
   const [allAssets, setAllAssets] = useState([{ name: "", logoURI: "", symbol: "", address: "" }])
   const [showSelectAssets, setShowSelectAssets] = useState(false)
+  const [showSettings, setShowSettings] = useState(false)
+  const [tolerance, setTolerance] = useState(0.5)
+  const [txnDeadline, setTxnDeadline] = useState("")
 
   const [pay, setPay] = useState({
     ...defaultAssetState,
@@ -104,12 +107,12 @@ const Swap = () => {
     ...defaultAssetState,
     availableBalance: 43.5
   })
-  const [selectAssetField, setSelectAssetField] = useState({currentField: pay.asset, setField: setPay, label: "pay"})
+  const [selectAssetField, setSelectAssetField] = useState({currentField: pay.asset, setField: setPay, label: "pay", matchAsset: receive.asset.symbol})
 
   const handleShowAssets = (type: string) => {
     setShowSelectAssets(true)
-    const field = type === "pay" ? {currentField: pay.asset, setField: setPay, label: "pay"} :
-      {currentField: receive.asset, setField: setReceive, label: "receive"}
+    const field = type === "pay" ? {currentField: pay.asset, setField: setPay, label: "pay", matchAsset: receive.asset.symbol} :
+      {currentField: receive.asset, setField: setReceive, label: "receive", matchAsset: pay.asset.symbol}
     setSelectAssetField(field)
   }
 
@@ -194,13 +197,15 @@ const Swap = () => {
       {/* is select asset component is not enabled show swap component*/}
       {showSelectAssets ? (
         <SelectAssets handleConversion={handleConversionFromAssetChange} assets={allAssets} assetField={selectAssetField} close={setShowSelectAssets} />
+      ) : showSettings ? (
+        <SwapSettings close={setShowSettings} tolerance={tolerance} setTolerance={setTolerance} txnDeadline={txnDeadline} setTxnDeadline={setTxnDeadline} />
       ) : (
         <Fragment>
           <Header>
             <i className="far fa-star"/>
             <i className="fal fa-gift"/>
             <i className="fal fa-share-square"/>
-            <i className="fal fa-cog"/>
+            <i className="fal fa-cog" onClick={() => setShowSettings(true)}/>
           </Header>
 
           <div>
@@ -223,8 +228,8 @@ const Swap = () => {
           <Button disabled={(pay.amount === "" || receive.amount === "")}>Confirm Order</Button>
           <Line/>
 
-          <TnxDetails title={"Slippage Tolerance"} value={"3%"} />
-          <TnxDetails title={"Minimum Received"} value={"256 USDC"}/>
+          <TnxDetails title={"Slippage Tolerance"} value={`${tolerance}%`} />
+          <TnxDetails title={"Minimum Received"} value={`${Number(receive.amount) - ((Number(receive.amount) * tolerance)/100)} ${receive.asset.symbol}`}/>
         </Fragment>
       )}
     </Section>
