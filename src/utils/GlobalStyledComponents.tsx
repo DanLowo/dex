@@ -71,6 +71,43 @@ const BackSection = ({ title, onClick } : backSectionProps) => (
   </BackSectionStyled>
 )
 
+
+const ModalStyled = styled.div`
+  position: absolute !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  opacity: .8;
+  width: 100%;
+  height: 100%;
+  background-color: #3f3a3a;
+  z-index: 99;
+  
+  > div {
+    height: 60%;
+    width: 23%;
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    background: ${props => props.theme.backgroundSecondary};
+  }
+`
+
+interface modalProps {
+  children: object,
+  close: Function
+}
+
+const Modal = ({ children, close }: modalProps) => (
+  <ModalStyled onClick={() => close()}>
+    <div onClick={(e) => e.stopPropagation()}>
+      {children}
+    </div>
+  </ModalStyled>
+)
+
 export {
-  AllItemsRight, AllItemsLeft, SpaceBetween, CenterItems, Button, Line, BackSection
+  AllItemsRight, AllItemsLeft, SpaceBetween, CenterItems, Button, Line, BackSection, Modal
 }
