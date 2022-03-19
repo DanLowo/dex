@@ -78,6 +78,7 @@ const ModalStyled = styled.div`
   justify-content: center;
   align-items: center;
   left: 0;
+  right: 0;
   top: 0;
   bottom: 0;
   opacity: .8;
@@ -87,7 +88,8 @@ const ModalStyled = styled.div`
   z-index: 99;
   
   > div {
-    height: 60%;
+    height: fit-content;
+    max-height: 80%;
     width: 23%;
     padding: 1.5rem;
     border-radius: 1.5rem;
@@ -95,14 +97,27 @@ const ModalStyled = styled.div`
   }
 `
 
+const HeadSection = styled(SpaceBetween)`
+  color: ${props => props.theme.textPrimary};
+  margin-bottom: 1.5rem;
+  & i {
+    cursor: pointer;
+  }
+`
+
 interface modalProps {
   children: object,
-  close: Function
+  close: Function,
+  title: string
 }
 
-const Modal = ({ children, close }: modalProps) => (
-  <ModalStyled onClick={() => close()}>
+const Modal = ({ children, close, title }: modalProps) => (
+  <ModalStyled onClick={() => close(false)}>
     <div onClick={(e) => e.stopPropagation()}>
+      <HeadSection>
+        <h4>{title}</h4>
+        <i className="fal fa-times" onClick={() => close(false)}/>
+      </HeadSection>
       {children}
     </div>
   </ModalStyled>
