@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import styled from "styled-components";
-import {ConnectWalletModal} from "../index";
+import {AccountDetailsModal, ConnectWalletModal} from "../index";
 
 const Nav = styled.nav`
   display: flex;
@@ -66,9 +66,13 @@ const NetworkAndConnectWallet = styled.div`
 
 const SideBarNavigation = () => {
   const [showConnectWallet, setShowConnectWallet] = useState(false)
+  const [showAddressModal, setShowAddressModal] = useState(false)
+  const [walletConnected, setWalletConnected] = useState(false)
+
   return (
     <Fragment>
-      {showConnectWallet && <ConnectWalletModal close={setShowConnectWallet} />}
+      {showConnectWallet && <ConnectWalletModal close={setShowConnectWallet} connectWallet={setWalletConnected} />}
+      {showAddressModal && <AccountDetailsModal close={setShowAddressModal} disconnectWallet={setWalletConnected} />}
       <Nav>
         <div>
           <PersonIcon className="fal fa-user-circle" />
@@ -77,7 +81,9 @@ const SideBarNavigation = () => {
               <i className="fal fa-circle"/>
               BSC
             </p>
-            <button onClick={() => setShowConnectWallet(true)}><strong>Connect to a wallet</strong></button>
+            {walletConnected ? (
+              <button onClick={() => setShowAddressModal(true)}><strong>0xBAD7432A...6435F</strong></button>
+            ) : <button onClick={() => setShowConnectWallet(true)}><strong>Connect to a wallet</strong></button>}
           </NetworkAndConnectWallet>
           <MenuIcon className="fal fa-bars" />
         </div>
