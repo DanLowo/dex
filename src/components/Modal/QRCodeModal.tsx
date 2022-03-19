@@ -48,7 +48,7 @@ const QrCodeModal = ({ close } : qrCodeModalProps) => {
   return (
     <Modal close={() => close(false)}>
       <HeadSection>
-        <h4>Invite Your Friends</h4>
+        <h4>Invite Your Friends!</h4>
         <i className="fal fa-times" onClick={() => close(false)}/>
       </HeadSection>
 
