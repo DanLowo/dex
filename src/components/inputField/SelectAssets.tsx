@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
-import { AllItemsLeft, SpaceBetween } from "../../utils/GlobalStyledComponents";
+import { BackSection, SpaceBetween } from "../../utils/GlobalStyledComponents";
 import { getTokenPriceService } from "../../services";
 
 interface assetObjectProps {
@@ -13,7 +13,8 @@ interface assetObjectProps {
 interface assetFieldProps {
   currentField: assetObjectProps,
   setField: Function,
-  label: string
+  label: string,
+  matchAsset: string
 }
 
 interface selectAssetsProps {
@@ -22,13 +23,6 @@ interface selectAssetsProps {
   handleConversion: Function,
   assetField: assetFieldProps
 }
-
-const BackSection = styled(AllItemsLeft)`
-  cursor: pointer;
-  color: ${props => props.theme.textPrimary};
-  font-weight: bold;
-  letter-spacing: .05rem;
-`
 
 
 const Search = styled.div`
@@ -97,7 +91,7 @@ const Div = styled.div`
   height: 75%;
 `
 
-const SelectAssets = ({ assets, close, assetField: {currentField, setField, label}, handleConversion } : selectAssetsProps) => {
+const SelectAssets = ({ assets, close, assetField: {currentField, setField, label, matchAsset}, handleConversion } : selectAssetsProps) => {
 
   const [assetsList, setAssetsList] = useState(assets)
 
@@ -130,15 +124,12 @@ const SelectAssets = ({ assets, close, assetField: {currentField, setField, labe
   return (
     <Div>
       <div>
-        <BackSection onClick={() => close(false)}>
-          <i className="fal fa-long-arrow-left" />
-          <span>Select An Asset</span>
-        </BackSection>
+        <BackSection onClick={() => close(false)} title={"Select An Asset"}/>
       </div>
       {SearchField()}
       <Assets>
         {assetsList.map((item, k) => (
-          item.symbol !== currentField.symbol && (
+          (item.symbol !== currentField.symbol && item.symbol !== matchAsset)  && (
             <AssetItem key={k} onClick={() => handleAssetSelection(item)}>
               <div>
                 <img src={item.logoURI} alt={item.symbol}/>
