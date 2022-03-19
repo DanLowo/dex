@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import React from "react";
 
 const AllItemsRight = styled.div`
   display: flex;
@@ -28,13 +29,15 @@ const CenterItems = styled.div`
 
 const Button = styled.button`
   cursor: pointer;
-  margin: 2rem 0 .5rem;
+  margin: 1rem 0 0;
   padding: 1rem .5rem;
   border: none;
   width: 100%;
   font-weight: bold;
   font-size: .9rem;
   border-radius: 1rem;
+  color: ${props => props.theme.textPrimary};
+  background-color ${props => props.theme.linkOnHover};
   
   :disabled {
     color: ${props => props.theme.textSecondary};
@@ -43,12 +46,31 @@ const Button = styled.button`
 `
 
 const Line = styled.div`
-  margin: 1rem 0;
+  margin: 1rem 0 1rem;
   padding: 0.03rem;
   width: 100%;
   background: ${props => props.theme.backgroundButton};
 `
 
+const BackSectionStyled = styled(AllItemsLeft)`
+  cursor: pointer;
+  color: ${props => props.theme.textPrimary};
+  font-weight: bold;
+  letter-spacing: .05rem;
+`
+
+interface backSectionProps {
+  title: string,
+  onClick: Function
+}
+
+const BackSection = ({ title, onClick } : backSectionProps) => (
+  <BackSectionStyled onClick={() => onClick()}>
+    <i className="fal fa-long-arrow-left" />
+    <span>{title}</span>
+  </BackSectionStyled>
+)
+
 export {
-  AllItemsRight, AllItemsLeft, SpaceBetween, CenterItems, Button, Line
+  AllItemsRight, AllItemsLeft, SpaceBetween, CenterItems, Button, Line, BackSection
 }

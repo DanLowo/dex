@@ -5,8 +5,9 @@ import Swap from "./sidebar/Swap"
 import Section from "./sidebar/Section";
 import SelectField from "./inputField/SelectField";
 import SelectAssets from "./inputField/SelectAssets";
+import SwapSettings from "./sidebar/SwapSettings";
 
 
 export {
-  PageAndSidebarWrapper, NavigationBar, SideBarNavigation, Swap, Section, SelectField, SelectAssets
+  PageAndSidebarWrapper, NavigationBar, SideBarNavigation, Swap, Section, SelectField, SelectAssets, SwapSettings
 }

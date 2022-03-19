@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const StyledSection = styled.section`
   padding: 1.2rem;
-  height: 80%;
+  height: 83%;
   border-radius: 1.2rem;
   width: calc(90% - 1.2rem);
   background-color: ${props => props.theme.backgroundTertiary};
