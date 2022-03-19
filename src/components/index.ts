@@ -6,9 +6,11 @@ import Section from "./sidebar/Section";
 import SelectField from "./inputField/SelectField";
 import SelectAssets from "./inputField/SelectAssets";
 import SwapSettings from "./sidebar/SwapSettings";
-import QrCodeModal from "./Modal/QRCodeModal";
+import QrCodeModal from "./modal/QRCodeModal";
+import ConnectWalletModal from "./modal/ConnectWalletModal";
 
 
 export {
-  PageAndSidebarWrapper, NavigationBar, SideBarNavigation, Swap, Section, SelectField, SelectAssets, SwapSettings, QrCodeModal
+  PageAndSidebarWrapper, NavigationBar, SideBarNavigation, Swap, Section, SelectField, SelectAssets, SwapSettings,
+  QrCodeModal, ConnectWalletModal
 }
