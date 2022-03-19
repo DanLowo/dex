@@ -1,18 +1,11 @@
 import React from 'react';
 import QRCode from "react-qr-code"
-import {CenterItems, Modal, SpaceBetween} from "../../utils/GlobalStyledComponents";
+import { CenterItems, Modal } from "../../utils/GlobalStyledComponents";
 import styled from "styled-components";
 
 interface qrCodeModalProps {
   close: Function
 }
-
-const HeadSection = styled(SpaceBetween)`
-  color: ${props => props.theme.textPrimary};
-  & i {
-    cursor: pointer;
-  }
-`
 
 const QRDiv = styled(CenterItems)`
   height: 100%;
@@ -46,12 +39,7 @@ const QRDiv = styled(CenterItems)`
 
 const QrCodeModal = ({ close } : qrCodeModalProps) => {
   return (
-    <Modal close={() => close(false)}>
-      <HeadSection>
-        <h4>Invite Your Friends!</h4>
-        <i className="fal fa-times" onClick={() => close(false)}/>
-      </HeadSection>
-
+    <Modal close={() => close(false)} title={"Invite Your Friends!"}>
       <QRDiv>
         <section>
           <QRCode level={"Q"} size={180} value={"Developed by: Daniel Olulowo"} />
