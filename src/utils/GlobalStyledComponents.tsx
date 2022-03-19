@@ -87,7 +87,7 @@ const ModalStyled = styled.div`
   z-index: 99;
   
   > div {
-    height: 55%;
+    height: 60%;
     width: 23%;
     padding: 1.5rem;
     border-radius: 1.5rem;
