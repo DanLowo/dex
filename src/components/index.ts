@@ -9,9 +9,10 @@ import SwapSettings from "./sidebar/SwapSettings";
 import QrCodeModal from "./modal/QRCodeModal";
 import ConnectWalletModal from "./modal/ConnectWalletModal";
 import AccountDetailsModal from "./modal/AccountDetailsModal";
+import ConfirmSwap from "./sidebar/ConfirmSwap";
 
 
 export {
   PageAndSidebarWrapper, NavigationBar, SideBarNavigation, Swap, Section, SelectField, SelectAssets, SwapSettings,
-  QrCodeModal, ConnectWalletModal, AccountDetailsModal
+  QrCodeModal, ConnectWalletModal, AccountDetailsModal, ConfirmSwap
 }
