@@ -123,6 +123,45 @@ const Modal = ({ children, close, title }: modalProps) => (
   </ModalStyled>
 )
 
+
+const TransactionDetails = styled(SpaceBetween)`
+  margin-bottom: .3rem;
+  & div {
+    font-size: .9rem;
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+    
+    span {
+      color: ${props => props.theme.textSecondary}
+    }
+    i {
+      color: ${props => props.theme.textPrimary}
+    }
+  }
+  
+  > span {
+    font-size: .85rem;
+    color: ${props => props.theme.textPrimary}
+  }
+`
+
+interface tnxProps {
+  title: string,
+  value: string,
+  noIcon?: boolean
+}
+
+const TxnDetails = ({title, value, noIcon}: tnxProps) => (
+  <TransactionDetails>
+    <div>
+      <span>{title}</span>
+      {!noIcon && <i className="fal fa-question-circle" />}
+    </div>
+    <span>{value}</span>
+  </TransactionDetails>
+)
+
 export {
-  AllItemsRight, AllItemsLeft, SpaceBetween, CenterItems, Button, Line, BackSection, Modal
+  AllItemsRight, AllItemsLeft, SpaceBetween, CenterItems, Button, Line, BackSection, Modal, TxnDetails
 }
