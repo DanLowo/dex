@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import {QrCodeModal, Section, SelectAssets, SelectField, SwapSettings} from "../";
-import { AllItemsRight, Button, CenterItems, Line, SpaceBetween } from "../../utils/GlobalStyledComponents";
+import {ConfirmSwap, QrCodeModal, Section, SelectAssets, SelectField, SwapSettings} from "../";
+import { AllItemsRight, Button, CenterItems, Line, TxnDetails } from "../../utils/GlobalStyledComponents";
 import styled from "styled-components";
 import { swapUseEffect } from "../../services/useEffectServices";
 import { getTokenPriceService } from "../../services";
@@ -69,28 +69,6 @@ const ConversionRate = styled(CenterItems)`
   }
 `
 
-const TransactionDetails = styled(SpaceBetween)`
-  margin-bottom: .3rem;
-  & div {
-    font-size: .9rem;
-    display: flex;
-    gap: .5rem;
-    align-items: center;
-    
-    span {
-      color: ${props => props.theme.textSecondary}
-    }
-    i {
-      color: ${props => props.theme.textPrimary}
-    }
-  }
-  
-  > span {
-    font-size: .85rem;
-    color: ${props => props.theme.textPrimary}
-  }
-`
-
 const Swap = () => {
   const [allAssets, setAllAssets] = useState([{ name: "", logoURI: "", symbol: "", address: "" }])
 
@@ -98,6 +76,7 @@ const Swap = () => {
   const [showSelectAssets, setShowSelectAssets] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [showShare, setShowShare] = useState(false)
+  const [showConfirmSwap, setShowConfirmSwap] = useState(false)
 
   // swap settings
   const [tolerance, setTolerance] = useState(0.5)
@@ -176,20 +155,6 @@ const Swap = () => {
     }
   }
 
-  interface tnxProps {
-    title: string,
-    value: string
-  }
-
-  const TnxDetails = ({title, value}: tnxProps) => (
-    <TransactionDetails>
-      <div>
-        <span>{title}</span>
-        <i className="fal fa-question-circle" />
-      </div>
-      <span>{value}</span>
-    </TransactionDetails>
-  )
 
   useEffect(() => {
     swapUseEffect({ setAllAssets, setPay, setReceive })
@@ -206,6 +171,8 @@ const Swap = () => {
         <SelectAssets handleConversion={handleConversionFromAssetChange} assets={allAssets} assetField={selectAssetField} close={setShowSelectAssets} />
       ) : showSettings ? (
         <SwapSettings close={setShowSettings} tolerance={tolerance} setTolerance={setTolerance} txnDeadline={txnDeadline} setTxnDeadline={setTxnDeadline} />
+      ) : showConfirmSwap ? (
+        <ConfirmSwap close={setShowConfirmSwap} pay={pay} receive={receive} openSettings={setShowSettings} txn={{tolerance, handleConversion}} />
       ) : (
         <Fragment>
           <Header>
@@ -232,11 +199,11 @@ const Swap = () => {
             <i className="fal fa-sync" onClick={handleRefreshPrices}/>
           </ConversionRate>
 
-          <Button disabled={(pay.amount === "" || receive.amount === "")}>Confirm Order</Button>
+          <Button onClick={() => setShowConfirmSwap(true)} disabled={(pay.amount === "" || receive.amount === "")}>Confirm Order</Button>
           <Line/>
 
-          <TnxDetails title={"Slippage Tolerance"} value={`${tolerance}%`} />
-          <TnxDetails title={"Minimum Received"} value={`${Number(receive.amount) - ((Number(receive.amount) * tolerance)/100)} ${receive.asset.symbol}`}/>
+          <TxnDetails title={"Slippage Tolerance"} value={`${tolerance}%`} />
+          <TxnDetails title={"Minimum Received"} value={`${Number(receive.amount) - ((Number(receive.amount) * tolerance)/100)} ${receive.asset.symbol}`}/>
         </Fragment>
       )}
     </Section>
