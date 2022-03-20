@@ -72,7 +72,7 @@ const SideBarNavigation = () => {
   return (
     <Fragment>
       {showConnectWallet && <ConnectWalletModal close={setShowConnectWallet} connectWallet={setWalletConnected} />}
-      {showAddressModal && <AccountDetailsModal close={setShowAddressModal} disconnectWallet={setWalletConnected} />}
+      {showAddressModal && <AccountDetailsModal close={setShowAddressModal} connectWallet={setShowConnectWallet} disconnectWallet={setWalletConnected} />}
       <Nav>
         <div>
           <PersonIcon className="fal fa-user-circle" />

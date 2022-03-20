@@ -1,9 +1,10 @@
-import React from 'react';
-import {Button, Modal, SpaceBetween} from "../../utils/GlobalStyledComponents";
+import React, { useState } from 'react';
+import {Button, CenterItems, Modal, SpaceBetween} from "../../utils/GlobalStyledComponents";
 import styled from "styled-components";
 
 interface accountDetailsModalProps {
   close: Function,
+  connectWallet: Function,
   disconnectWallet: Function
 }
 
@@ -78,21 +79,36 @@ const TransactionItemStyled = styled(SpaceBetween)<transactionItemStyledProps>`
   }
 `
 
+const EmptyTransaction = styled(CenterItems)`
+  margin-top: 2rem;
+`
+
 interface transactionItemProps {
   name: string,
   status: boolean
 }
 
-const AccountDetailsModal = ({ close } : accountDetailsModalProps) => {
+const AccountDetailsModal = ({ close, connectWallet, disconnectWallet } : accountDetailsModalProps) => {
 
-  const transactionDetails = [
+  const [transactionDetails, setTransactionDetails]  =useState([
     {name: "Swap BUSD", status: true},
     {name: "Approve BUSD", status: true},
     {name: "Stake", status: false},
     {name: "Stake", status: true},
     {name: "Approve BTCB", status: false},
     {name: "Stake", status: true},
-  ]
+  ])
+
+  const handleDisconnectWallet = () => {
+    disconnectWallet(false)
+    close(false)
+  }
+
+  const handleSwitchWallet = () => {
+    disconnectWallet(false)
+    close(false)
+    connectWallet(true)
+  }
 
   const TransactionItem = ({ name, status } : transactionItemProps) => (
     <TransactionItemStyled status={status}>
@@ -111,20 +127,26 @@ const AccountDetailsModal = ({ close } : accountDetailsModalProps) => {
         </div>
       </AccountDiv>
       <Actions>
-        <ActionButton dark>
+        <ActionButton dark onClick={handleSwitchWallet}>
           <i className="fal fa-exchange"/>
           Switch Wallet</ActionButton>
-        <ActionButton>Disconnect Wallet</ActionButton>
+        <ActionButton onClick={handleDisconnectWallet}>Disconnect Wallet</ActionButton>
       </Actions>
 
       <Transactions>
         <SpaceBetween>
           <h4>Recent Transactions</h4>
-          <span>Clear all</span>
+          <span onClick={() => setTransactionDetails([])}>Clear all</span>
         </SpaceBetween>
 
         <div>
-          {transactionDetails.map((item, k) => <TransactionItem key={k} name={item.name} status={item.status} />)}
+          {transactionDetails.length > 0 ? (
+            transactionDetails.map((item, k) => <TransactionItem key={k} name={item.name} status={item.status} />)
+          ) : (
+            <EmptyTransaction>
+              <h4>No transaction</h4>
+            </EmptyTransaction>
+          )}
         </div>
       </Transactions>
     </Modal>
