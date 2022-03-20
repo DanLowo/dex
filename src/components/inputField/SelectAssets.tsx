@@ -55,7 +55,7 @@ const Search = styled.div`
 const Assets = styled.div`
   margin-top: 1rem;
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: hidden;
   max-height: inherit;
 `
 
