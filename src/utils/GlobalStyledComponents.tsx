@@ -27,7 +27,11 @@ const CenterItems = styled.div`
   gap: .5rem;
 `
 
-const Button = styled.button`
+interface buttonProps {
+  dark?: boolean
+}
+
+const Button = styled.button<buttonProps>`
   cursor: pointer;
   margin: 1rem 0 0;
   padding: 1rem .5rem;
@@ -36,10 +40,11 @@ const Button = styled.button`
   font-weight: bold;
   font-size: .9rem;
   border-radius: 1rem;
-  color: ${props => props.theme.textPrimary};
-  background-color ${props => props.theme.linkOnHover};
+  color: ${({ theme }) => theme.textPrimary};
+  background-color ${({ theme, dark }) => dark ? theme.backgroundButton : theme.linkOnHover};
   
   :disabled {
+    cursor: initial;
     color: ${props => props.theme.textSecondary};
     background-color: ${props => props.theme.backgroundButton};
   }
