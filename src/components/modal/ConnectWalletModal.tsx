@@ -56,7 +56,7 @@ const ConnectWalletModal = ({ close, connectWallet } : connectWalletModalProps) 
     <Modal close={() => close()} title={"Connect Wallet"}>
         <Items>
           <input onChange={() => setAcceptTerms(!acceptTerms)} checked={acceptTerms} id={"agree"} type={"checkbox"}/>
-          <label htmlFor={"agree"}>I have read, understand, and agree to the <a>Terms of Services</a></label>
+          <label htmlFor={"agree"}>I have read, understand, and agree to the <a href="/">Terms of Services</a></label>
         </Items>
 
         <div>

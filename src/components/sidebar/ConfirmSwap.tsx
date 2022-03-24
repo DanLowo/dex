@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {Fragment, useState} from 'react';
 import {BackSection, Button, SpaceBetween, TxnDetails} from "../../utils/GlobalStyledComponents";
 import styled from "styled-components";
+import {TransactionStatusModal} from "../index";
 
 interface assetProps {
   logoURI: string,
@@ -27,12 +28,13 @@ interface confirmSwapProps {
 
 const Header = styled(SpaceBetween)`
   i {
+    cursor: pointer;
     color: ${props => props.theme.textPrimary};
   }
 `
 
 const TransactionDetails = styled.div`
-  margin: 1.5rem 0 2rem;
+  margin: 1.5rem 0;
   & label {
     font-size: .95rem;
     color: ${props => props.theme.textSecondary};
@@ -66,44 +68,68 @@ const TransactionInfo = styled.div`
 `
 
 const ConfirmSwap = ({ close, openSettings, pay, receive, txn } : confirmSwapProps) => {
+  const { amount: payAmount , asset : { symbol: paySymbol, logoURI: payLogoURI } } = pay
+  const { amount: receiveAmount, asset : { symbol: receiveSymbol, logoURI: receiveLogoURI } } = receive
+
+  const [showTransactionModal, setShowTransactionModal] = useState(false)
+
+  const statusTypes = ["success", "fail"]
+  const [{ status, details }, setTransactionDetails] = useState({
+    status: statusTypes[1],
+    details: `Exchanging ${payAmount} ${paySymbol} for ${receiveAmount} ${receiveSymbol}`
+  })
+
+  const handleSubmitTransaction = () => {
+    setTransactionDetails(prev => ({
+      ...prev,
+      status: statusTypes[Math.floor(Math.random()+.5)]
+    }))
+    setShowTransactionModal(true)
+  }
+
   return (
-    <div>
-      <Header>
-        <BackSection title={"Select Amount"} onClick={() => close(false)} />
-        <i className="fal fa-cog" onClick={() => openSettings(true)}/>
-      </Header>
+    <Fragment>
+      {showTransactionModal && (
+        <TransactionStatusModal status={status} details={details} close={setShowTransactionModal} />
+      )}
+      <div>
+        <Header>
+          <BackSection title={"Select Amount"} onClick={() => close(false)} />
+          <i className="fal fa-cog" onClick={() => openSettings(true)}/>
+        </Header>
 
-      <TransactionDetails>
-        <label>You pay</label>
-        <div>
-          <h2>{pay.amount}</h2>
-          <img src={pay.asset.logoURI} alt={pay.asset.symbol}/>
-        </div>
-      </TransactionDetails>
+        <TransactionDetails>
+          <label>You pay</label>
+          <div>
+            <h2>{payAmount}</h2>
+            <img src={payLogoURI} alt={paySymbol}/>
+          </div>
+        </TransactionDetails>
 
-      <TransactionDetails>
-        <label>You Receive</label>
-        <div>
-          <h2>{receive.amount}</h2>
-          <img src={receive.asset.logoURI} alt={receive.asset.symbol}/>
-        </div>
-      </TransactionDetails>
+        <TransactionDetails>
+          <label>You Receive</label>
+          <div>
+            <h2>{receiveAmount}</h2>
+            <img src={receiveLogoURI} alt={receiveSymbol}/>
+          </div>
+        </TransactionDetails>
 
-      <TransactionInfo>
-        <p>
-          Output is estimated, you will receive at least {""}
-          {Number(receive.amount) - ((Number(receive.amount) * txn.tolerance)/100)}
-          {receive.asset.symbol} or the transaction will revert.
-        </p>
+        <TransactionInfo>
+          <p>
+            Output is estimated, you will receive at least {""}
+            {Number(receiveAmount) - ((Number(receiveAmount) * txn.tolerance)/100)}
+            {receiveSymbol} or the transaction will revert.
+          </p>
 
-        <TxnDetails title={"Price"} value={`1 ${pay.asset.symbol} = ${txn.handleConversion()} ${receive.asset.symbol}`} noIcon />
-        <TxnDetails title={"Minimum received"} value={`${Number(receive.amount) - ((Number(receive.amount) * txn.tolerance)/100)} ${receive.asset.symbol}`} />
-        <TxnDetails title={"Price impact"} value={`< ${txn.tolerance}%`} />
-        <TxnDetails title={"Liquidity Provider Fee"} value={"0.5 BUSD"} />
-      </TransactionInfo>
+          <TxnDetails title={"Price"} value={`1 ${paySymbol} = ${txn.handleConversion()} ${receiveSymbol}`} noIcon />
+          <TxnDetails title={"Minimum received"} value={`${Number(receiveAmount) - ((Number(receiveAmount) * txn.tolerance)/100)} ${receiveSymbol}`} />
+          <TxnDetails title={"Price impact"} value={`< ${txn.tolerance}%`} />
+          <TxnDetails title={"Liquidity Provider Fee"} value={"0.5 BUSD"} />
+        </TransactionInfo>
 
-      <Button>Confirm Order</Button>
-    </div>
+        <Button onClick={handleSubmitTransaction}>Confirm Order</Button>
+      </div>
+    </Fragment>
   );
 };
 
